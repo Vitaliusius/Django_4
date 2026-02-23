@@ -55,12 +55,12 @@ def show_all_pokemons(request):
 def show_pokemon(request, pokemon_id):
     requested_pokemon = get_object_or_404(Pokemon, id = pokemon_id)
     pokemons_entity = requested_pokemon.pokemons_entity.all()
-    next_pokemons = requested_pokemon.next_evolutions.all()
-    next_pokemon = next_pokemons.first()
+    next_evolutions = requested_pokemon.next_evolutions.all()
+    next_pokemon = next_evolutions.first()
     if next_pokemon and next_pokemon.title == 'Bulbasaur':
         next_pokemon_description = {
-            "title_ru": next_pokemons[1].title,
-            "pokemon_id": next_pokemons[1].id,
+            "title_ru": next_evolutions[1].title,
+            "pokemon_id": next_evolutions[1].id,
             "img_url": next_pokemon.photo.url
         }
     elif next_pokemon:
