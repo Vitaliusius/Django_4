@@ -54,16 +54,10 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     requested_pokemon = get_object_or_404(Pokemon, id = pokemon_id)
-    pokemons_entity = requested_pokemon.pokemons_entity.all()
+    entities = requested_pokemon.entities.all()
     next_evolutions = requested_pokemon.next_evolutions.all()
     next_pokemon = next_evolutions.first()
-    if next_pokemon and next_pokemon.title == 'Bulbasaur':
-        next_pokemon_description = {
-            "title_ru": next_evolutions[1].title,
-            "pokemon_id": next_evolutions[1].id,
-            "img_url": next_pokemon.photo.url
-        }
-    elif next_pokemon:
+    if next_pokemon:
         next_pokemon_description = {
             "title_ru": next_pokemon.title,
             "pokemon_id": next_pokemon.id,
@@ -91,7 +85,7 @@ def show_pokemon(request, pokemon_id):
         'next_evolution': next_pokemon_description
     }
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon in pokemons_entity:
+    for pokemon in entities:
         add_pokemon(
             folium_map, pokemon.lat,
             pokemon.lon,
